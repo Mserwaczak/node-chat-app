@@ -46,10 +46,6 @@ pipeline {
         }
         success {
             echo 'Success'
-            emailext attachLog: true,
-                body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}",
-                to: 'mserwaczak@gmail.com',
-                subject: "Success"
         }
     }
 }
