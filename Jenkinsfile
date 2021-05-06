@@ -3,13 +3,35 @@ pipeline {
     
     tools {nodejs "node"}
     
-    
+    stages {
+        stage('Build') { 
+            steps {
+                echo 'Building'
+                sh 'npm install'
+                
+            }
+        }
+    }
+    post {
+        failure {
+            emailext attachLog: true,
+                body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}",
+                to: 'mserwaczak@gmail.com',
+                subject: "Build failed"
+        }
+        success {
+            echo 'Success'
+            emailext attachLog: true,
+                body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}",
+                to: 'mserwaczak@gmail.com',
+                subject: "Build success"
+        }
+    }
     
     stages {
         stage('Test') { 
             steps {
                 echo 'Testing'
-                sh 'npm install'
                 sh 'npm run test'
             }
         }
@@ -20,7 +42,7 @@ pipeline {
             emailext attachLog: true,
                 body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}",
                 to: 'mserwaczak@gmail.com',
-                subject: "Build failed"
+                subject: "Test failed"
         }
         success {
             echo 'Success'
