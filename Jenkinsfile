@@ -15,7 +15,7 @@ pipeline {
             		emailext attachLog: true,
                 	body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}",
                 	to: 'mserwaczak@gmail.com',
-                	subject: "Build failed."
+                	subject: "Build failed"
         	}
         	success {
             		emailext attachLog: true,
